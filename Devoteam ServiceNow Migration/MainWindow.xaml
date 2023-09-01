@@ -1,0 +1,32 @@
+﻿<Window x:Class="Devoteam_ServiceNow_Migration.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Migration App" Height="300" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <!-- Internet Address TextBox -->
+        <Label Content="Internet Address:" Grid.Row="0" Margin="10"/>
+        <TextBox x:Name="InternetAddressTextBox" Grid.Row="0" Margin="120,0,10,10"/>
+
+        <!-- Username TextBox -->
+        <Label Content="Username:" Grid.Row="1" Margin="10"/>
+        <TextBox x:Name="UsernameTextBox" Grid.Row="1" Margin="120,0,10,10"/>
+
+        <!-- Password TextBox -->
+        <Label Content="Password:" Grid.Row="2" Margin="10"/>
+        <PasswordBox x:Name="PasswordBox" Grid.Row="2" Margin="120,0,10,10"/>
+
+        <!-- Migrate Button -->
+        <Button x:Name="MigrateButton" Content="Migrate" Grid.Row="3" Width="100" Height="30" Margin="10" Click="MigrateButton_Click"/>
+
+        <!-- Progress Bar -->
+        <ProgressBar x:Name="ProgressBar" Grid.Row="4" Height="20" Width="300" Margin="10" Minimum="0" Maximum="100" Value="0"/>
+
+    </Grid>
+</Window>
