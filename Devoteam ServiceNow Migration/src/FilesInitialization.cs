@@ -51,6 +51,11 @@ namespace Devoteam_ServiceNow_Migration
                     }
                 }
             }
+            else
+            {
+                Directory.CreateDirectory(Environment.CurrentDirectory + "/files");
+                File.Create(path);
+            }
             //Creating folders if they don't already exists
             path = Environment.CurrentDirectory + "/out";
             foreach (var VARIABLE in folderList)

@@ -16,12 +16,34 @@ namespace Devoteam_ServiceNow_Migration
             filesinit = new FilesInitialization(); // Initialize the class-level field
             filesinit.Initialization();
             ProgressBar.Visibility = Visibility.Hidden;
+            if (filesinit.files.Count == 0)
+            {
+                UploadButton.IsEnabled = false;
+            }
+        }
+
+        private static MainWindow _instance;
+
+        public static MainWindow GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new MainWindow();
+            }
+
+            return _instance;
+        }
+
+        public void updateCount()
+        {
+            ProgressBar.Value += (1.0 / filesinit.files.Count) * 100;
         }
 
         private async void MigrateButton_Click(object sender, RoutedEventArgs e)
         {
             // Hide the Migrate button and show the ProgressBar
             MigrateButton.Visibility = Visibility.Hidden;
+            UploadButton.IsEnabled = false;
             ProgressBar.Visibility = Visibility.Visible;
     
             string internetAdress = InternetAddressTextBox.Text;
@@ -47,7 +69,7 @@ namespace Devoteam_ServiceNow_Migration
                     // Report progress to the UI
                     Dispatcher.Invoke(() =>
                     {
-                        ProgressBar.Value += (1.0 / filesinit.files.Count)*100;
+                        updateCount();
                     });
                 }
             });
@@ -59,6 +81,26 @@ namespace Devoteam_ServiceNow_Migration
             ProgressBar.Value = 0;
             ProgressBar.Visibility = Visibility.Hidden;
             MigrateButton.Visibility = Visibility.Visible;
+            UploadButton.IsEnabled = true;
+        }
+        
+        private async void UploadButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProgressBar.Visibility = Visibility.Visible;
+            MigrateButton.Visibility = Visibility.Hidden;
+            UploadButton.IsEnabled = false;
+            var Export = new Export(InternetAddressTextBox.Text, UsernameTextBox.Text, PasswordBox.Password, this);
+            
+            await Task.Run(() =>
+            {
+                Export.SendFiles(filesinit);
+            });
+            
+            MessageBox.Show("Files Uploaded!", "Uplaod Status", MessageBoxButton.OK, MessageBoxImage.Information);
+            ProgressBar.Value = 0;
+            ProgressBar.Visibility = Visibility.Hidden;
+            MigrateButton.Visibility = Visibility.Visible;
+            UploadButton.IsEnabled = true;
         }
     }
 }
